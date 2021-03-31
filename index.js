@@ -23,6 +23,18 @@ client.connect(err => {
         res.send(result.insertedCount);
     })
   })
+  app.get('/products',(req,res)=>{
+      productsCollection.find({})
+      .toArray((err,documents)=>{
+          res.send(documents);
+      })
+  })
+  app.get('/product/:key',(req,res)=>{
+    productsCollection.find({key: req.params.key})
+    .toArray((err,documents)=>{
+        res.send(documents[0]);
+    })
+})
 //   console.log(process.env.DB_NAME,process.env.DB_PASS,process.env.DB_USER);
 });
 
