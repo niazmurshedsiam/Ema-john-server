@@ -13,10 +13,11 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     console.log(err);
   const productsCollection = client.db("emajohnStore").collection("products");
+  const ordersCollection = client.db("emajohnStore").collection("orders");
   app.post('/addProduct',(req,res)=>{
     const products = req.body;
      console.log(products); 
-    productsCollection.insertMany(products)
+    productsCollection.insertOne(products)
     .then(result =>{
         console.log(result);
         console.log(result.insertedCount);
@@ -44,6 +45,16 @@ app.post('/productsByKeys',(req,res)=>{
         res.send(documents);
     })
 })
+app.post('/addOrder',(req,res)=>{
+    const order = req.body;
+     console.log(order); 
+    ordersCollection.insertOne(order)
+    .then(result =>{
+        console.log(result);
+        console.log(result.insertedCount);
+        res.send(result.insertedCount > 0);
+    })
+  })
 //   console.log(process.env.DB_NAME,process.env.DB_PASS,process.env.DB_USER);
 });
 
